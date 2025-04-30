@@ -18,7 +18,7 @@ import java.util.Scanner;
     x시작좌표, y시작좌표, n
  ======================================================================*/
 
-public class Main {
+public class bj_2630 {
     public static int[][] arr;
     public static int b = 0;
     public static int w = 0;
