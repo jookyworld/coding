@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 ======================================================================*/
 
-public class Main {
+public class bj_2447 {
     public static char[][] result;
     public static int n;
 
