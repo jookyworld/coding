@@ -7,18 +7,13 @@ import java.util.Scanner;
 
 public class Main {
     public static char[][] result;
-    public static int n;
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
+        int n = sc.nextInt();
         result = new char[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                result[i][j] = '*';
-            }
-        }
-        star(0, 0, n);
+        star(0, 0, n, false);
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -29,21 +24,43 @@ public class Main {
         System.out.println(sb);
     }
 
-    public static void star(int x, int y, int n){
-        if (n < 3) {
+    public static void star(int x, int y, int n, boolean check){
+        if (check) {
+            for (int i = x; i < x+n; i++) {
+                for (int j = y; j < y+n; j++) {
+                    result[i][j] = ' ';
+                }
+            }
             return;
         }
-        for (int i = x+n/3; i < x+n/3*2; i++) {
-            for (int j = y+n/3; j < y+n/3*2; j++) {
-                result[i][j] = ' ';
-            }
+        if (n == 1) {
+            result[x][y] = '*';
+            return;
         }
+        int count = 0;
         for (int i=x; i<x+n; i=i+n/3) {
             for (int j=y; j<y+n; j=j+n/3) {
-                if (!(i==n/3 && j==n/3)) {
-                    star(i, j, n / 3);
+                count++;
+                if (count == 5) {
+                    star(i, j, n / 3, true);
+                } else {
+                    star(i, j, n / 3, false);
                 }
             }
         }
+
+
+//        star(x,y, n/3);
+//        star(x,y+n/3, n/3);
+//        star(x,y+n/3 + n/3, n/3);
+//
+//        star(x+n/3,y, n/3);
+////      star(n/3,n/3, n/3);
+//        star(x+n/3,y+n/3+n/3, n/3);
+//
+//        star(x+n/3+n/3,y, n/3);
+//        star(x+n/3+n/3,y+n/3, n/3);
+//        star(x+n/3+n/3,y+n/3 + n/3, n/3);
+
     }
 }
