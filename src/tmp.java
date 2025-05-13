@@ -1,54 +1,65 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 
-class tmp {
-    final static int MAX = 25 + 10;
-    static boolean[][] graph;
-    static boolean[][] visited;
-    static int countPerDanji;
-    static int dirY[] = { 1, -1, 0, 0 };
-    static int dirX[] = { 0, 0, 1, -1 };
+public class tmp
+{
+    static int N;
+    static int K;
 
-    static void dfs(int y, int x) {
-        visited[y][x] = true;
-        countPerDanji++;
+    static int visited[] = new int[100001];
 
-        for (int i = 0; i < 4; i++) {
-            int newY = y + dirY[i];
-            int newX = x + dirX[i];
-            if (!visited[newY][newX] && graph[newY][newX])
-                dfs(newY, newX);
-        }
+    // X-1, X+1
+    // 2*X
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String input = br.readLine();
+        String[] inputs = input.split(" ");
+
+        N = Integer.valueOf(inputs[0]);
+        K = Integer.valueOf(inputs[1]);
+
+        int result = bfs(N);
+        System.out.println(result);
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
+    private static int  bfs(int node)
+    {
+        Queue<Integer> queue = new LinkedList<Integer>();
 
-        graph = new boolean[MAX][MAX];
-        visited = new boolean[MAX][MAX];
+        queue.add(node);
+        int index = node;
+        int n = 0;
+        visited[index] = 1;
+        while (queue.isEmpty() == false)
+        {
+            n = queue.remove();
 
-        for (int i = 1; i <= N; i++) {
-            String s = br.readLine();
-            for (int j = 1; j <= N; j++)
-                graph[i][j] = s.charAt(j - 1) == '1';
+            if (n == K)
+            {
+                return visited[n]-1;
+            }
+
+            if (n-1>=0 && visited[n-1] == 0)
+            {
+                visited[n-1] = visited[n]+1;
+                queue.add(n-1);
+            }
+            if (n+1 <= 100000 && visited[n+1] == 0)
+            {
+                visited[n+1] = visited[n]+1;
+                queue.add(n+1);
+            }
+            if (2*n <= 100000 && visited[2*n] == 0)
+            {
+                visited[2*n] = visited[n] + 1;
+                queue.add(2*n);
+            }
         }
-
-        ArrayList<Integer> countList = new ArrayList<>();
-        for (int i = 1; i <= N; i++)
-            for (int j = 1; j <= N; j++)
-                if (graph[i][j] && !visited[i][j]) {
-                    countPerDanji = 0;
-                    dfs(i, j);
-                    countList.add(countPerDanji);
-                }
-
-        System.out.println(countList.size());
-        for (int i = 0; i < countList.size(); i++)
-            System.out.println(countList.get(i));
-        Collections.sort(countList);
-        for (int i = 0; i < countList.size(); i++)
-            System.out.println(countList.get(i));
-        br.close();
+        return -1;
     }
 }
