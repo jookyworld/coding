@@ -3,12 +3,10 @@ import java.util.*;
 public class Main {
     public static void main(String args[]) throws Exception {
 
-        int[] A = {1, 5, 2, 6, 3, 7, 4};
-        int[] result = solution(A, new int[][]{{2, 5, 3}, {4, 4, 1}, {1, 7, 3}});
+        int[] A = {3, 30, 34, 5, 9};
+        String result = solution(A);
 
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(result[i]);
-        }
+        System.out.println(result);
     }
 
     /*
@@ -16,15 +14,20 @@ public class Main {
 
      */
 
-    public static int[] solution(int[] array, int[][] commands) {
-        int[] answer = new int[commands.length];
-
-        for (int i = 0; i < commands.length; i++) {
-            int[] tmp = Arrays.copyOfRange(array, commands[i][0] - 1, commands[i][1]);
-            Arrays.sort(tmp);
-            answer[i] = tmp[commands[i][2] - 1];
+    public static String solution(int[] numbers) {
+        String[] tmp = new String[numbers.length];
+        for (int i = 0; i < numbers.length; i++) {
+            tmp[i] = String.valueOf(numbers[i]);
         }
+        Arrays.sort(tmp, (a, b) -> (b + a).compareTo(a + b));
 
+        StringBuilder sb = new StringBuilder();
+        for (String s : tmp) {
+            sb.append(s);
+        }
+        String answer = sb.toString();
+
+        if(answer.startsWith("0")) return "0";
         return answer;
     }
 
